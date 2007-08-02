@@ -1,7 +1,7 @@
-# Brandon Keene <bkeene AT gmail DOT com>
-# Based on "HasMetaAttributes" by Brandon Keene
-# Rewritten May, 2007
-module Has #:nodoc:
+# Has Magic Columns
+#
+# Copyright (c) 2007 Brandon Keene <bkeene AT gmail DOT com>
+# see README for licensemodule Has #:nodoc:
   module Magic #:nodoc:
     # Extends @attributes on a per model basis.  Column definitions exist through the built-in
     # :magic_columns association.
