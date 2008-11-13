@@ -23,6 +23,16 @@ class HasMagicColumnsTest < Test::Unit::TestCase
     assert @bob.respond_to?(:first_name=)
   end
 
+  def test_magic_column_should_be_saved
+    @bob.magic_columns << MagicColumn.create(:name => "last_name")
+    @bob.last_name = 'Doe'
+    @bob.save
+
+    # Find @bob and inspect him
+    @bob = Person.find_by_email('bob@example.com')
+    assert @bob.last_name == 'Doe'
+  end
+
   def test_datatype_should_be_remembered
     @bob.magic_columns << MagicColumn.create(:name => "birthday", :datatype => "date")
     @bob.birthday = Date.today
