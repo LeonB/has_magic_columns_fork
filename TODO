@@ -3,3 +3,8 @@ August, 2007
 * Fully implement check box support
 * Add full Rspecs
 * Benchmark and optimize
+
+November, 2008
+========================================
+* Merge functionality from acts_as_customizable (http://redmine.rubyforge.org/svn/trunk/vendor/plugins/acts_as_customizable)
+* Clean up
