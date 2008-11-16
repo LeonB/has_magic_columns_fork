@@ -9,9 +9,12 @@ $:.unshift File.dirname(__FILE__) + '/../lib'
 require File.dirname(__FILE__) + '/../init'
 
 #Setup the connection
+#ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :dbfile => "test.sqlite3")
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :dbfile => ":memory:")
 
 require 'test/person'
+require 'test/issue'
+require 'test/project'
 
 class Test::Unit::TestCase
   def assert_queries(num = 1)
@@ -36,6 +39,14 @@ def setup_db
     create_table :people do |t|
       t.column :description, :string, :default => 'annoying'
       t.column :email, :string, :null => false
+    end
+
+    create_table :projects do |t|
+      t.column :name, :string
+    end
+
+    create_table :issues do |t|
+      t.column :name, :string
     end
   end
 

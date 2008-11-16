@@ -42,4 +42,19 @@ class HasMagicColumnsTest < Test::Unit::TestCase
     @bob = Person.find_by_email('bob@example.com')
     assert @bob.birthday.is_a?(Date)
   end
+
+  def test_columns_for_should_create_method
+    @project = Project.new
+    assert @project.respond_to?(:magic_issue_columns)
+  end
+
+  def test_columns_for_should_not_create_magic_columns_method
+    @project = Project.new
+    assert !@project.respond_to?(:magic_columns)
+  end
+
+  def test_columns_through_should_create_magic_columns_method
+    @issue = Issue.new
+    assert @issue.respond_to?(:magic_columns)
+  end
 end

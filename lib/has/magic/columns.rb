@@ -38,6 +38,27 @@ module Has #:nodoc:
                 end
               end
             end
+
+            if options[:through]
+              through = options[:through].to_s.downcase.singularize
+              self_class = self.to_s
+
+              define_method "magic_columns_with_#{through}_columns" do
+                if self.send(through)
+                  self.send(through).magic_auto_columns || []
+                end
+                alias_method_chain :magic_columns, "#{through}_columns"
+              end
+            end
+
+            if options[:for]
+              for_class = options[:for].to_s.downcase.singularize
+              self_class = self.to_s
+
+              has_and_belongs_to_many "magic_#{for_class}_columns",
+                :class_name => 'MagicColumn',
+                :join_table => "#{self_class.downcase}_magic_#{for_class}_columns"
+            end
             
             # Inheritence
             cattr_accessor :inherited_from

@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.ruby.rubyproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/ruby-project/1">
-            <name>has_magic_columns</name>
+            <name>has_magic_columns_fork</name>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

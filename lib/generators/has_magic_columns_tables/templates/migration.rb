@@ -11,7 +11,7 @@ class AddHasMagicColumnsTables < ActiveRecord::Migration
       t.column :created_at,     :datetime
       t.column :updated_at,     :datetime
     end
-    
+
     create_table :magic_attributes do |t|
       t.column :magic_column_id, :integer
       t.column :magic_option_id, :integer
@@ -19,7 +19,7 @@ class AddHasMagicColumnsTables < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
     end
-    
+
     create_table :magic_options do |t|
       t.column :magic_column_id, :integer
       t.column :value, :string
@@ -27,7 +27,7 @@ class AddHasMagicColumnsTables < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
     end
-    
+
     create_table :magic_column_relationships do |t|
       t.column :magic_column_id, :integer
       t.column :owner_id, :integer
@@ -35,12 +35,12 @@ class AddHasMagicColumnsTables < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
     end
-    
+
     create_table :magic_attribute_relationships do |t|
       t.column :magic_attribute_id, :integer
       t.column :owner_id, :integer
       t.column :owner_type, :string
-    end   
+    end
   end
 
   def self.down
