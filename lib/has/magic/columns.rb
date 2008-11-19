@@ -58,23 +58,22 @@ module Has #:nodoc:
               has_and_belongs_to_many "magic_#{for_class}_columns",
                 :class_name => 'MagicColumn',
                 :join_table => "#{self_class.downcase}_magic_#{for_class}_columns"
+              return
             end
 
-            unless options[:for]
-              # Inheritence
-              cattr_accessor :inherited_from
-              unless self.inherited_from = options[:inherit]
-                has_many :magic_column_relationships, :as => :owner, :dependent => :destroy
-                has_many :magic_columns, :through => :magic_column_relationships, :dependent => :destroy
-              else
-                class_eval do
-                  def inherited_magic_columns
-                    raise "Cannot inherit MagicColumns from a non-existant association: #{@inherited_from}" unless self.class.method_defined?(inherited_from)# and self.send(inherited_from)
-                    self.send(inherited_from).magic_columns
-                  end
+            # Inheritence
+            cattr_accessor :inherited_from
+            unless self.inherited_from = options[:inherit]
+              has_many :magic_column_relationships, :as => :owner, :dependent => :destroy
+              has_many :magic_columns, :through => :magic_column_relationships, :dependent => :destroy
+            else
+              class_eval do
+                def inherited_magic_columns
+                  raise "Cannot inherit MagicColumns from a non-existant association: #{@inherited_from}" unless self.class.method_defined?(inherited_from)# and self.send(inherited_from)
+                  self.send(inherited_from).magic_columns
                 end
-                alias_method :magic_columns, :inherited_magic_columns unless method_defined? :magic_columns
               end
+              alias_method :magic_columns, :inherited_magic_columns unless method_defined? :magic_columns
             end
             
             # Hook into Base
@@ -104,7 +103,7 @@ module Has #:nodoc:
           reload_without_magic
         end
 
-      private
+        private
         
         # Save MagicAttributes from @attributes
         def create_or_update_with_magic
@@ -136,7 +135,7 @@ module Has #:nodoc:
           attr_names = magic_columns.map(&:name)
           initialize_magic_columns and retry if attr_names.include?(method_name) or 
             (md = /[\?|\=]/.match(method_name) and 
-            attr_names.include?(md.pre_match))
+              attr_names.include?(md.pre_match))
           super(method_id, *args)
         end
         

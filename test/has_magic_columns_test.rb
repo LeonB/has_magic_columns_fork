@@ -57,4 +57,11 @@ class HasMagicColumnsTest < Test::Unit::TestCase
     @issue = Issue.new
     assert @issue.respond_to?(:magic_columns)
   end
+
+  def test_create_with_columns_for_should_not_call_magic_columns_method
+    @project = Project.new
+    @project.name = 'Test project'
+    assert @project.save
+    assert @project.errors.length < 1
+  end
 end
