@@ -59,20 +59,22 @@ module Has #:nodoc:
                 :class_name => 'MagicColumn',
                 :join_table => "#{self_class.downcase}_magic_#{for_class}_columns"
             end
-            
-            # Inheritence
-            cattr_accessor :inherited_from
-            unless self.inherited_from = options[:inherit]
-              has_many :magic_column_relationships, :as => :owner, :dependent => :destroy
-              has_many :magic_columns, :through => :magic_column_relationships, :dependent => :destroy
-            else
-              class_eval do
-                def inherited_magic_columns
-                  raise "Cannot inherit MagicColumns from a non-existant association: #{@inherited_from}" unless self.class.method_defined?(inherited_from)# and self.send(inherited_from)
-                  self.send(inherited_from).magic_columns
+
+            unless options[:for]
+              # Inheritence
+              cattr_accessor :inherited_from
+              unless self.inherited_from = options[:inherit]
+                has_many :magic_column_relationships, :as => :owner, :dependent => :destroy
+                has_many :magic_columns, :through => :magic_column_relationships, :dependent => :destroy
+              else
+                class_eval do
+                  def inherited_magic_columns
+                    raise "Cannot inherit MagicColumns from a non-existant association: #{@inherited_from}" unless self.class.method_defined?(inherited_from)# and self.send(inherited_from)
+                    self.send(inherited_from).magic_columns
+                  end
                 end
+                alias_method :magic_columns, :inherited_magic_columns unless method_defined? :magic_columns
               end
-              alias_method :magic_columns, :inherited_magic_columns unless method_defined? :magic_columns
             end
             
             # Hook into Base
