@@ -47,7 +47,7 @@ module Has #:nodoc:
                 if self.send(through)
                   self.send(through).magic_auto_columns || []
                 end
-                alias_method_chain :magic_columns, "#{through}_columns"
+                #alias_method_chain :magic_columns, "#{through}_columns"
               end
             end
 
@@ -57,7 +57,8 @@ module Has #:nodoc:
 
               has_and_belongs_to_many "magic_#{for_class}_columns",
                 :class_name => 'MagicColumn',
-                :join_table => "#{self_class.downcase}_magic_#{for_class}_columns"
+                :join_table => "#{self_class.downcase}_magic_#{for_class}_columns",
+                :select => 'magic_columns.*'
               return
             end
 
@@ -101,6 +102,10 @@ module Has #:nodoc:
         def reload_with_magic
           initialize_magic_columns
           reload_without_magic
+        end
+
+        def magic_column_names
+          magic_columns.map(&:name)
         end
 
         private

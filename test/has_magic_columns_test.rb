@@ -64,4 +64,11 @@ class HasMagicColumnsTest < Test::Unit::TestCase
     assert @project.save
     assert @project.errors.length < 1
   end
+
+  def test_magic_column_names_should_return_flat_array_with_field_names
+    @bob.magic_columns << MagicColumn.create(:name => "first_name")
+    @bob.magic_columns << MagicColumn.create(:name => "last_name")
+
+    assert @bob.magic_column_names.sort == ['first_name', 'last_name']
+  end
 end

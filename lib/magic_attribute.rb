@@ -14,7 +14,8 @@ class MagicAttribute < ActiveRecord::Base
         self.magic_option = option
       end
     elsif magic_column.allow_other
-      self.magic_option = nil
+      #HACK door Leon!
+      #self.magic_option = nil
     end
   end
   
